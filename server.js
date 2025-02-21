@@ -165,6 +165,20 @@ app.post("/save-recipe", async (req, res) => {
         res.status(500).json({ error: "Failed to save recipe" });
     }
 });
+// ✅ Get User Details by ID
+app.get("/user-details/:userId", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId).select("name email");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(user);
+    } catch (err) {
+        console.error("Error fetching user details:", err.message);
+        res.status(500).json({ error: "Failed to fetch user details" });
+    }
+});
+
 
 // ✅ Get Saved Recipes
 app.get("/get-saved-recipes/:userId", async (req, res) => {
