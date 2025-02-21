@@ -134,62 +134,6 @@ async function suggestRecipes() {
     }
 }
 
-// 🔄 Enhancement Update - Recipe Procedure on Click
-async function viewRecipe(recipeId) {
-    try {
-        const response = await fetch(`/recipes/details/${recipeId}`);
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
-        const data = await response.json();
-        const procedure = data.instructions || "No procedure available.";
-        const modal = document.createElement('div');
-        modal.className = 'modal';
-        modal.innerHTML = `
-            <div class='modal-content'>
-                <h2>${data.title}</h2>
-                <img src='${data.image}' alt='${data.title}'>
-                <h3>Procedure:</h3>
-                <p>${procedure}</p>
-                <button onclick='closeModal()'>Close</button>
-            </div>
-        `;
-        document.body.appendChild(modal);
-    } catch (error) {
-        console.error("Error fetching recipe details:", error);
-    }
-}
-
-function closeModal() {
-    const modal = document.querySelector('.modal');
-    if (modal) modal.remove();
-}
-
-// 🔄 Enhancement Update - Restaurant Directions
-async function findRestaurants() {
-    const city = document.getElementById("location").value.trim();
-    if (!city) return alert("Please enter a location!");
-
-    try {
-        const response = await fetch(`/restaurants/city/${encodeURIComponent(city)}`);
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-
-        const data = await response.json();
-        const resultContainer = document.getElementById("restaurant-results");
-        resultContainer.innerHTML = data.map(restaurant => `
-            <div class="card clickable" onclick="openDirections('${restaurant.display_name}')">
-                <h4>${restaurant.display_name}</h4>
-            </div>
-        `).join("");
-    } catch (error) {
-        console.error("Error fetching restaurants:", error);
-    }
-}
-
-function openDirections(restaurantName) {
-    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurantName)}`;
-    window.open(url, '_blank');
-}
-
 // 🍽️ Fetch top 5 restaurants and display as cards
 async function findRestaurants() {
     const city = document.getElementById("location").value.trim();
