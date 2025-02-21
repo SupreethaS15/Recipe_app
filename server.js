@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:5500", // Adjust based on your frontend URL
+    origin: "mongodb+srv://supreetha1512:supree1512@cluster0.qau4u.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", // Adjust based on your frontend URL
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type"
 }));
